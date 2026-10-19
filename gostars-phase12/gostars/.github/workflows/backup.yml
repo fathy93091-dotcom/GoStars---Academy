@@ -1,0 +1,32 @@
+# نسخة احتياطية اختيارية من قاعدة البيانات بضغطة زر (Actions ← Backup database ← Run workflow).
+# تتطلب سرّين في GitHub (Settings ← Secrets and variables ← Actions): DB_URL (رابط Session pooler) و BACKUP_PASSPHRASE.
+# الملفات تُشفَّر قبل رفعها كـ Artifact وتُحذف بعد 30 يوماً. المستودع يجب أن يبقى خاصاً (Private).
+# تحذير: وضع رابط القاعدة في GitHub Secrets مخاطرة إضافية؛ البديل الأكثر أماناً تشغيل scripts/backup.sh من جهازك.
+# للجدولة الأسبوعية فعّل سطري schedule أدناه.
+name: Backup database
+on:
+  workflow_dispatch:
+  # schedule:
+  #   - cron: '0 2 * * 5'
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install PostgreSQL 17 client
+        run: |
+          sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+          wget -qO- https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo tee /etc/apt/trusted.gpg.d/pgdg.asc >/dev/null
+          sudo apt-get update -qq && sudo apt-get install -y -qq postgresql-client-17
+      - name: Backup
+        env:
+          DB_URL: ${{ secrets.DB_URL }}
+          BACKUP_PASSPHRASE: ${{ secrets.BACKUP_PASSPHRASE }}
+        run: |
+          test -n "$BACKUP_PASSPHRASE" || { echo "BACKUP_PASSPHRASE مطلوب (لا نسخ بلا تشفير)"; exit 1; }
+          ./scripts/backup.sh backups
+      - uses: actions/upload-artifact@v4
+        with:
+          name: gostars-backup-${{ github.run_id }}
+          path: backups/*
+          retention-days: 30

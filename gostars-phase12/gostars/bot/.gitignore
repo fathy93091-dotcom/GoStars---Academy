@@ -1,0 +1,4 @@
+node_modules
+auth
+sent.json
+.env

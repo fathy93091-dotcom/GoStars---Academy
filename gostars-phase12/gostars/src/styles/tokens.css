@@ -1,0 +1,38 @@
+/* ===== GoStars — نظام الهوية (مأخوذ من الشعار) =====
+   كل الألوان والمقاسات هنا فقط. لتغيير الهوية عدّل هذا الملف. */
+:root {
+  /* ألوان الشعار */
+  --blue-900: #0A2A6B;      /* أزرق داكن (النصوص والعناوين) */
+  --blue-700: #013998;      /* أزرق الشعار الأساسي */
+  --blue-500: #004CB1;      /* أزرق "Go" */
+  --sky: #0099E0;           /* أزرق سماوي (تدرج الشعار) */
+  --gold: #F2B72E;          /* ذهبي الشعار */
+  --gold-300: #FCD046;      /* ذهبي فاتح (النجمة) */
+  --gold-700: #D28F0B;      /* ذهبي داكن */
+
+  /* ألوان الواجهة */
+  --bg: #F6F9FF;            /* خلفية الصفحة: أبيض مزرق هادئ */
+  --surface: #FFFFFF;       /* البطاقات */
+  --tint: #EAF1FF;          /* خلفية أقسام فاتحة */
+  --ink: #0A2A6B;
+  --ink-soft: #4A5E8A;
+  --line: #D5E1F7;
+  --warm: #FC9F7F;          /* اللون الدافئ من وثيقة المشروع — لمسات فقط */
+  --success: #1E7A5A;
+  --danger: #B3261E;
+
+  /* تدرجات */
+  --grad-blue: linear-gradient(135deg, var(--blue-700), var(--sky));
+  --grad-gold: linear-gradient(135deg, var(--gold-300), var(--gold-700));
+
+  /* الخطوط */
+  --font-head: 'Cairo', system-ui, sans-serif;
+  --font-body: 'Tajawal', system-ui, sans-serif;
+
+  /* المسافات والحواف */
+  --radius: 20px;
+  --radius-sm: 12px;
+  --shadow: 0 8px 24px rgba(1, 57, 152, 0.10);
+  --shadow-lg: 0 14px 34px rgba(1, 57, 152, 0.18);
+  --max: 1120px;
+}
